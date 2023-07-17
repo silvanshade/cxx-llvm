@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+  "crates/cxx-llvm",
+  "crates/cxx-llvm-abi",
+]
