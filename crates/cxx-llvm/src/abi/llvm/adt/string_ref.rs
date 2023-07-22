@@ -18,15 +18,12 @@ impl<'a> ::core::fmt::Debug for StringRef<'a> {
 }
 impl<'a> StringRef<'a> {
     #[inline]
-    pub fn default() -> Self {
+    pub fn default() -> impl ::cxx_memory::New<Output = StringRef<'a>> {
         unsafe {
-            let initializer = ::cxx_memory::new::by_raw(move |this| {
+            ::cxx_memory::new::by_raw(move |this| {
                 let this = this.get_unchecked_mut().as_mut_ptr();
                 self::ffi::cxx_default_new(this);
-            });
-            let this = ::core::mem::MaybeUninit::uninit();
-            ::cxx_memory::New::new(initializer, ::core::pin::pin!(this));
-            this.assume_init()
+            })
         }
     }
 }
