@@ -5,12 +5,12 @@
 #include "llvm/ADT/Triple.h"
 
 // NOTE: these are global since cxx emits enum asserts without qualified names
-using ArchType = ::llvm::Triple::ArchType;
-using SubArchType = ::llvm::Triple::SubArchType;
-using VendorType = ::llvm::Triple::VendorType;
-using OSType = ::llvm::Triple::OSType;
-using EnvironmentType = ::llvm::Triple::EnvironmentType;
-using ObjectFormatType = ::llvm::Triple::ObjectFormatType;
+using TripleArchType = ::llvm::Triple::ArchType;
+using TripleSubArchType = ::llvm::Triple::SubArchType;
+using TripleVendorType = ::llvm::Triple::VendorType;
+using TripleOSType = ::llvm::Triple::OSType;
+using TripleEnvironmentType = ::llvm::Triple::EnvironmentType;
+using TripleObjectFormatType = ::llvm::Triple::ObjectFormatType;
 
 namespace cxx_llvm::llvm::adt::triple {
 using Triple = ::llvm::Triple;

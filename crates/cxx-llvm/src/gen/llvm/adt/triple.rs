@@ -6,7 +6,7 @@ mod ffi {
     #[namespace = "cxx_llvm::llvm::adt::triple"]
     #[derive(Debug)]
     #[repr(u32)]
-    enum ArchType {
+    enum TripleArchType {
         UnknownArch,
         arm,
         armeb,
@@ -73,7 +73,7 @@ mod ffi {
     #[namespace = "cxx_llvm::llvm::adt::triple"]
     #[derive(Debug)]
     #[repr(u32)]
-    enum SubArchType {
+    enum TripleSubArchType {
         NoSubArch,
         ARMSubArch_v9_3a,
         ARMSubArch_v9_2a,
@@ -116,7 +116,7 @@ mod ffi {
     #[namespace = "cxx_llvm::llvm::adt::triple"]
     #[derive(Debug)]
     #[repr(u32)]
-    enum VendorType {
+    enum TripleVendorType {
         UnknownVendor,
         Apple,
         PC,
@@ -138,7 +138,7 @@ mod ffi {
     #[namespace = "cxx_llvm::llvm::adt::triple"]
     #[derive(Debug)]
     #[repr(u32)]
-    enum OSType {
+    enum TripleOSType {
         UnknownOS,
         Ananas,
         CloudABI,
@@ -184,7 +184,7 @@ mod ffi {
     #[namespace = "cxx_llvm::llvm::adt::triple"]
     #[derive(Debug)]
     #[repr(u32)]
-    enum EnvironmentType {
+    enum TripleEnvironmentType {
         UnknownEnvironment,
         GNU,
         GNUABIN32,
@@ -228,7 +228,7 @@ mod ffi {
     #[namespace = "rust::llvm"]
     #[derive(Debug)]
     #[repr(u32)]
-    enum ObjectFormatType {
+    enum TripleObjectFormatType {
         UnknownObjectFormat,
         COFF,
         DXContainer,
@@ -247,17 +247,17 @@ mod ffi {
         #[namespace = "cxx_llvm::llvm::adt::triple"]
         type Triple = crate::ffi::llvm::adt::triple::Triple;
 
-        type ArchType;
+        type TripleArchType;
 
-        type SubArchType;
+        type TripleSubArchType;
 
-        type VendorType;
+        type TripleVendorType;
 
-        type OSType;
+        type TripleOSType;
 
-        type EnvironmentType;
+        type TripleEnvironmentType;
 
-        type ObjectFormatType;
+        type TripleObjectFormatType;
 
         #[namespace = "cxx_llvm::llvm::adt::twine"]
         type Twine<'a> = crate::ffi::llvm::adt::twine::Twine<'a>;
@@ -277,4 +277,11 @@ mod ffi {
     }
 }
 pub(crate) use self::ffi::*;
-pub use self::ffi::{ArchType, EnvironmentType, OSType, ObjectFormatType, SubArchType, VendorType};
+pub use self::ffi::{
+    TripleArchType as ArchType,
+    TripleEnvironmentType as EnvironmentType,
+    TripleOSType as OSType,
+    TripleObjectFormatType as ObjectFormatType,
+    TripleSubArchType as SubArchType,
+    TripleVendorType as VendorType,
+};
