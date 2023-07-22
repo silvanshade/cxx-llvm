@@ -16,6 +16,8 @@ mod ffi {
         fn new_from_rust_str<'a>(str: &'a str) -> StringRef<'a>;
 
         fn new_from_rust_slice<'a>(str: &'a [_c_char]) -> StringRef<'a>;
+
+        fn as_slice<'a>(This: StringRef<'a>) -> &'a [_c_char];
     }
 }
 pub(crate) use self::ffi::*;

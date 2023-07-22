@@ -123,4 +123,11 @@ new_from_rust_slice(rust::Slice<char const> const slice [[clang::lifetimebound]]
   return { slice.data(), slice.size() };
 }
 
+[[nodiscard]] [[gnu::always_inline]]
+static inline auto
+as_slice(F This [[clang::lifetimebound]]) noexcept -> rust::Slice<char const>
+{
+  return { This.data(), This.size() };
+}
+
 } // namespace cxx_llvm::llvm::adt::string_ref
