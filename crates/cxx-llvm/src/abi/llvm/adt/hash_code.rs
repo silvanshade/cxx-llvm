@@ -73,7 +73,7 @@ mod info {
         fn cxx_abi_size() {
             ::core::assert_eq!(::core::mem::size_of::<HashCode>(), 8)
         }
-        ::static_assertions::assert_impl_all!(HashCode: ::core::marker::Copy);
-        ::static_assertions::assert_impl_all!(HashCode: ::core::marker::Unpin);
+        :: static_assertions :: assert_impl_all ! (HashCode : :: core :: marker :: Copy);
+        :: static_assertions :: assert_impl_all ! (HashCode : :: core :: marker :: Unpin);
     }
 }
