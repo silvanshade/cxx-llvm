@@ -10,6 +10,7 @@ unsafe impl ::cxx::ExternType for Triple {
     type Kind = ::cxx::kind::Opaque;
 }
 impl ::core::ops::Drop for Triple {
+    #[cfg_attr(feature = "tracing", tracing::instrument)]
     #[inline]
     fn drop(&mut self) {
         unsafe {
