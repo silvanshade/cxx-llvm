@@ -39,9 +39,8 @@ where
     }
 
     #[inline]
-    pub fn iter(&self) -> Iter<'_, T> {
-        let inner = T::as_slice(self).iter();
-        Iter { inner }
+    pub fn iter(&self) -> core::slice::Iter<'_, T> {
+        T::as_slice(self).iter()
     }
 
     #[inline]
@@ -84,86 +83,6 @@ pub trait SmallVectorImplElement: SmallVectorElement {
     fn as_slice(this: &SmallVectorImpl<Self>) -> &[Self];
 
     unsafe fn as_mut_slice(this: Pin<&mut SmallVectorImpl<Self>>) -> &mut [Self];
-}
-
-#[repr(transparent)]
-pub struct Iter<'a, T>
-where
-    T: 'a,
-{
-    pub(crate) inner: core::slice::Iter<'a, T>,
-}
-
-impl<'a, T> Iter<'a, T> {
-    #[inline]
-    pub fn as_slice(&self) -> &'a [T] {
-        self.inner.as_slice()
-    }
-}
-
-impl<T> AsRef<[T]> for Iter<'_, T> {
-    #[inline]
-    fn as_ref(&self) -> &[T] {
-        self.inner.as_ref()
-    }
-}
-
-impl<T> Clone for Iter<'_, T> {
-    #[inline]
-    fn clone(&self) -> Self {
-        Self {
-            inner: self.inner.clone(),
-        }
-    }
-}
-
-impl<T> core::fmt::Debug for Iter<'_, T>
-where
-    T: core::fmt::Debug,
-{
-    #[inline]
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        core::fmt::Debug::fmt(&self.inner, f)
-    }
-}
-
-impl<T> DoubleEndedIterator for Iter<'_, T> {
-    #[inline]
-    fn next_back(&mut self) -> Option<Self::Item> {
-        self.inner.next_back()
-    }
-}
-
-impl<T> ExactSizeIterator for Iter<'_, T> {
-    #[inline]
-    fn len(&self) -> usize {
-        self.inner.len()
-    }
-}
-
-impl<T> core::iter::FusedIterator for Iter<'_, T> {
-}
-
-impl<'a, T> Iterator for Iter<'a, T> {
-    type Item = <core::slice::Iter<'a, T> as Iterator>::Item;
-
-    #[inline]
-    fn next(&mut self) -> Option<Self::Item> {
-        self.inner.next()
-    }
-
-    #[inline]
-    fn size_hint(&self) -> (usize, Option<usize>) {
-        self.inner.size_hint()
-    }
-}
-
-unsafe impl<T> Send for Iter<'_, T> where T: Send
-{
-}
-
-unsafe impl<T> Sync for Iter<'_, T> where T: Sync
-{
 }
 
 #[repr(transparent)]
