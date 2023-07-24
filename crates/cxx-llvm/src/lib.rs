@@ -30,7 +30,7 @@ pub mod llvm {
             pub use crate::ffi::llvm::adt::small_vector::{small_vector_element, SmallVector, SmallVectorElement};
         }
         pub mod small_vector_impl {
-            pub use crate::ffi::llvm::adt::small_vector_impl::{SmallVectorImpl, SmallVectorImplElement};
+            pub use crate::ffi::llvm::adt::small_vector_impl::{IterPin, SmallVectorImpl, SmallVectorImplElement};
         }
         pub mod string_ref {
             pub use crate::ffi::llvm::adt::string_ref::StringRef;
