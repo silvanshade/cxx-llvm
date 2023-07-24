@@ -39,6 +39,7 @@ impl<T, const CAPACITY: usize> AsRef<SmallVectorImpl<T>> for SmallVector<T, CAPA
 where
     T: SmallVectorImplElement,
 {
+    #[inline]
     fn as_ref(&self) -> &SmallVectorImpl<T> {
         debug_assert_eq!(CAPACITY, T::DEFAULT_CAPACITY);
         let this = unsafe { core::mem::transmute(self) };
@@ -50,6 +51,7 @@ impl<T, const CAPACITY: usize> SmallVector<T, CAPACITY>
 where
     T: SmallVectorImplElement,
 {
+    #[inline]
     pub fn as_pin(self: Pin<&mut Self>) -> Pin<&mut SmallVectorImpl<T>> {
         debug_assert_eq!(CAPACITY, T::DEFAULT_CAPACITY);
         let this = unsafe { core::mem::transmute(self) };
