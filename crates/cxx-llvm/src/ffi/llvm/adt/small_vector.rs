@@ -138,3 +138,29 @@ pub mod small_vector_element {
         }
     }
 }
+
+impl<'a, T, const CAPACITY: usize> IntoIterator for &'a SmallVector<T, CAPACITY>
+where
+    T: SmallVectorImplElement,
+{
+    type Item = <&'a SmallVectorImpl<T> as IntoIterator>::Item;
+    type IntoIter = <&'a SmallVectorImpl<T> as IntoIterator>::IntoIter;
+
+    #[inline]
+    fn into_iter(self) -> <&'a SmallVectorImpl<T> as IntoIterator>::IntoIter {
+        self.as_ref().into_iter()
+    }
+}
+
+impl<'a, T, const CAPACITY: usize> IntoIterator for Pin<&'a mut SmallVector<T, CAPACITY>>
+where
+    T: SmallVectorImplElement,
+{
+    type Item = <Pin<&'a mut SmallVectorImpl<T>> as IntoIterator>::Item;
+    type IntoIter = <Pin<&'a mut SmallVectorImpl<T>> as IntoIterator>::IntoIter;
+
+    #[inline]
+    fn into_iter(self) -> <Pin<&'a mut SmallVectorImpl<T>> as IntoIterator>::IntoIter {
+        self.as_pin().into_iter()
+    }
+}

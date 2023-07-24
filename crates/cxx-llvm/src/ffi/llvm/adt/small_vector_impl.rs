@@ -141,3 +141,29 @@ unsafe impl<T> Send for IterPin<'_, T> where T: Send
 unsafe impl<T> Sync for IterPin<'_, T> where T: Sync
 {
 }
+
+impl<'a, T> IntoIterator for &'a SmallVectorImpl<T>
+where
+    T: SmallVectorImplElement,
+{
+    type Item = <&'a [T] as IntoIterator>::Item;
+    type IntoIter = <&'a [T] as IntoIterator>::IntoIter;
+
+    #[inline]
+    fn into_iter(self) -> Self::IntoIter {
+        T::as_slice(self).into_iter()
+    }
+}
+
+impl<'a, T> IntoIterator for Pin<&'a mut SmallVectorImpl<T>>
+where
+    T: SmallVectorImplElement,
+{
+    type Item = <IterPin<'a, T> as Iterator>::Item;
+    type IntoIter = IterPin<'a, T>;
+
+    #[inline]
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter_pin()
+    }
+}
