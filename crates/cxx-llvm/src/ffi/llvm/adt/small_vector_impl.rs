@@ -52,6 +52,33 @@ where
 }
 
 pub trait SmallVectorImplElement: SmallVectorElement {
+    type ReprType;
+
+    #[inline]
+    fn into_repr_mut_ptr(this: *mut SmallVectorImpl<Self>) -> *mut <Self as SmallVectorImplElement>::ReprType {
+        unsafe { core::mem::transmute(this) }
+    }
+
+    #[inline]
+    fn into_repr_ref(this: &SmallVectorImpl<Self>) -> &<Self as SmallVectorImplElement>::ReprType {
+        unsafe { core::mem::transmute(this) }
+    }
+
+    #[inline]
+    fn from_repr_ref(repr: &<Self as SmallVectorImplElement>::ReprType) -> &SmallVectorImpl<Self> {
+        unsafe { core::mem::transmute(repr) }
+    }
+
+    #[inline]
+    fn into_repr_pin(this: Pin<&mut SmallVectorImpl<Self>>) -> Pin<&mut <Self as SmallVectorImplElement>::ReprType> {
+        unsafe { core::mem::transmute(this) }
+    }
+
+    #[inline]
+    fn from_repr_pin(repr: Pin<&mut <Self as SmallVectorImplElement>::ReprType>) -> Pin<&mut SmallVectorImpl<Self>> {
+        unsafe { core::mem::transmute(repr) }
+    }
+
     unsafe fn cxx_destruct(this: *mut SmallVectorImpl<Self>);
 
     fn as_slice(this: &SmallVectorImpl<Self>) -> &[Self];

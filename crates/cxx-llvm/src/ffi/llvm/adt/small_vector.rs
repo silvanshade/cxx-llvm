@@ -59,9 +59,35 @@ where
 
 pub trait SmallVectorElement: Sized {
     type DefaultType;
+    type ReprType;
     type SizeType;
 
     const DEFAULT_CAPACITY: usize;
+
+    #[inline]
+    fn into_repr_mut_ptr(this: *mut Self::DefaultType) -> *mut Self::ReprType {
+        unsafe { core::mem::transmute(this) }
+    }
+
+    #[inline]
+    fn into_repr_ref(this: &Self::DefaultType) -> &Self::ReprType {
+        unsafe { core::mem::transmute(this) }
+    }
+
+    #[inline]
+    fn from_repr_ref(repr: &Self::ReprType) -> &Self::DefaultType {
+        unsafe { core::mem::transmute(repr) }
+    }
+
+    #[inline]
+    fn into_repr_pin(this: Pin<&mut Self::DefaultType>) -> Pin<&mut Self::ReprType> {
+        unsafe { core::mem::transmute(this) }
+    }
+
+    #[inline]
+    fn from_repr_pin(repr: Pin<&mut Self::ReprType>) -> Pin<&mut Self::DefaultType> {
+        unsafe { core::mem::transmute(repr) }
+    }
 
     unsafe fn cxx_default_new(this: *mut Self::DefaultType);
 
