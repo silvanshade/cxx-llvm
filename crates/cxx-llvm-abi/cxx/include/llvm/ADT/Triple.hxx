@@ -20,7 +20,7 @@ namespace cxx_llvm::llvm::adt::triple {
 [[gnu::always_inline]] [[gnu::const]]
 static inline auto
 placement_new_from_arch_vendor_os(
-  Type* This,
+  Self* This,
   ::llvm::Twine const& arch,
   ::llvm::Twine const& vendor,
   ::llvm::Twine const& os
@@ -37,7 +37,7 @@ placement_new_from_arch_vendor_os(
 [[gnu::always_inline]] [[gnu::const]]
 static inline auto
 placement_new_from_arch_vendor_os_environment(
-  Type* This,
+  Self* This,
   ::llvm::Twine const& arch,
   ::llvm::Twine const& vendor,
   ::llvm::Twine const& os,
