@@ -9,32 +9,25 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # ensure that the C++ compiler is `clang++`
 set(CMAKE_CXX_COMPILER "clang++")
 
-add_library(cxx-llvm STATIC
+add_library(cxx-llvm-abi STATIC
   crates/cxx-llvm-abi/cxx/lib/cmake.cxx
 )
-target_compile_definitions(cxx-llvm PUBLIC LLVM_DISABLE_ABI_BREAKING_CHECKS_ENFORCING)
-target_include_directories(cxx-llvm PUBLIC
-  ../cxx-memory-abi/..
-  crates
-  cxx/include
+target_include_directories(cxx-llvm-abi PUBLIC
+  ../cxx-llvm/crates/cxx-llvm-abi/..
+  ../cxx-memory/crates/cxx-memory-abi/..
   target/cxxbridge
-  target/cxxbridge/rust
   ../swift-project/build/Ninja-ReleaseAssert/llvm-linux-x86_64/include
-  ../swift-project/build/Ninja-ReleaseAssert/llvm-linux-x86_64/tools/clang/include
-  ../swift-project/build/Ninja-ReleaseAssert/swift-linux-x86_64/include
-  ../swift-project/llvm-project/clang/include
   ../swift-project/llvm-project/llvm/include
-  ../swift-project
-  ../swift-project/swift/include
-  ../swift-project/swift/stdlib/public/SwiftShims
 )
-target_compile_options(cxx-llvm PUBLIC
-  -std=gnu++2b
+target_compile_definitions(cxx-llvm-abi PUBLIC _LIBCPP_ENABLE_THREAD_SAFETY_ANNOTATIONS)
+target_compile_options(cxx-llvm-abi PUBLIC
+  -std=gnu++20
   # -stdlib=libc++
-  # -lc++abi
   -Werror
   -Wall
   -Wextra
+  -Wthread-safety
+  -Wthread-safety-beta
   -pedantic
   -Wno-ambiguous-reversed-operator
   -Wno-deprecated-anon-enum-enum-conversion
