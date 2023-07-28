@@ -7,13 +7,13 @@ license = "Apache-2.0 WITH LLVM-exception"
 repository = "https://github.com/silvanshade/cxx-llvm"
 
 [build-dependencies]
-cxx-llvm-common = { version = "0.0", path = "../../../cxx-llvm-common" }
+cxx-llvm-common = { version = "0.0", git = "https://github.com/silvanshade/cxx-llvm-common" }
 cxx-llvm-abi = { version = "0.0", path = "../cxx-llvm-abi" }
 
 [dependencies]
 cxx = { version = "1.0", features = ["c++20"] }
-cxx-memory = { version = "0.0", path = "../../../cxx-memory/crates/cxx-memory" }
-cxx-memory-abi = { version = "0.0", path = "../../../cxx-memory/crates/cxx-memory-abi" }
+cxx-memory = { version = "0.0", git = "https://github.com/silvanshade/cxx-memory" }
+cxx-memory-abi = { version = "0.0", git = "https://github.com/silvanshade/cxx-memory" }
 cxx-llvm-abi = { version = "0.0", path = "../cxx-llvm-abi" }
 tracing = { version = "0.1", optional = true }
 
