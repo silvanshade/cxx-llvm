@@ -82,3 +82,9 @@ unsafe impl<This, Data> cxx_memory::New for Initializer<This, Data> {
         (self.call)(this, self.data)
     }
 }
+
+pub mod casting {
+    pub trait DynCast<T> {
+        fn dyn_cast(&self) -> Option<&T>;
+    }
+}
