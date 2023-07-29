@@ -29,7 +29,7 @@ where
     T: SmallVectorImplElement,
 {
     #[inline]
-    pub fn default() -> impl cxx_memory::New<Output = T::DefaultType> {
+    pub fn new() -> impl cxx_memory::New<Output = T::DefaultType> {
         unsafe {
             cxx_memory::new::by_raw(move |this| {
                 let this = this.get_unchecked_mut().as_mut_ptr();

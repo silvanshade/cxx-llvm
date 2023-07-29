@@ -8,7 +8,12 @@ pub use crate::{
 
 impl Triple {
     #[inline]
-    pub fn from<Data>(data: Data) -> impl cxx_memory::New<Output = Self>
+    pub fn new() -> impl cxx_memory::New<Output = Triple> {
+        Self::default_new()
+    }
+
+    #[inline]
+    pub fn from<Data>(data: Data) -> impl cxx_memory::New<Output = Triple>
     where
         Data: Into<crate::Initializer<Self, Data>>,
     {

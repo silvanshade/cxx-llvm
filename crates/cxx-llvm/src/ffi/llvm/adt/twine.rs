@@ -1,6 +1,21 @@
 use crate::gen::llvm::adt::twine;
+use cxx_memory::cxx;
 
 pub use crate::abi::llvm::adt::twine::Twine;
+
+impl<'a> Twine<'a> {
+    #[inline]
+    pub fn new() -> impl cxx_memory::New<Output = Twine<'a>> {
+        Self::default_new()
+    }
+}
+
+impl Default for Twine<'_> {
+    #[inline]
+    fn default() -> Self {
+        *cxx!(Self::new())
+    }
+}
 
 impl<'a> From<&'a str> for Twine<'a> {
     #[inline]

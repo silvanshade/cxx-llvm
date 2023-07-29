@@ -1,5 +1,6 @@
 use crate::gen::llvm::adt::string_ref;
 use core::str::Utf8Error;
+use cxx_memory::cxx;
 
 pub use crate::abi::llvm::adt::string_ref::StringRef;
 
@@ -28,9 +29,21 @@ impl<'a> From<&'a std::path::Path> for StringRef<'a> {
 
 impl<'a> StringRef<'a> {
     #[inline]
+    pub fn new() -> impl cxx_memory::New<Output = StringRef<'a>> {
+        Self::default_new()
+    }
+
+    #[inline]
     pub fn as_str(self) -> Result<&'a str, Utf8Error> {
         let slice = string_ref::as_slice(self);
         let bytes = cxx_memory_abi::ctypes::c_char::into_bytes(slice);
         core::str::from_utf8(bytes)
+    }
+}
+
+impl Default for StringRef<'_> {
+    #[inline]
+    fn default() -> Self {
+        *cxx!(Self::new())
     }
 }
