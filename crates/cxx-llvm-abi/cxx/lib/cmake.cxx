@@ -1,4 +1,6 @@
+#include "cxx-llvm-abi/cxx/include/cxx-llvm-abi.hxx"
 #include "cxx-llvm-abi/cxx/include/llvm/ADT/HashCode.hxx"
+#include "cxx-llvm-abi/cxx/include/llvm/ADT/Hashing.hxx"
 #include "cxx-llvm-abi/cxx/include/llvm/ADT/SmallVector.hxx"
 #include "cxx-llvm-abi/cxx/include/llvm/ADT/SmallVectorBoxed.hxx"
 #include "cxx-llvm-abi/cxx/include/llvm/ADT/SmallVectorImpl.hxx"

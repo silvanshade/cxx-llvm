@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cxx-memory-abi/cxx/include/cxx-memory-abi.hxx"
+#include "cxx-llvm-abi/cxx/include/cxx-llvm-abi.hxx"
 #include "rust/cxx.h"
 
 #include "llvm/ADT/StringRef.h"
