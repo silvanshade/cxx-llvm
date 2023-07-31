@@ -13,7 +13,7 @@ namespace cxx_memory::abi {
 template<typename T>
 requires(not detection::is_std_hashable<T>)
 [[nodiscard]] [[gnu::always_inline]] [[gnu::const]] [[nodiscard]] [[gnu::always_inline]] [[gnu::const]]
-constexpr inline auto
+constexpr static inline auto
 cxx_is_hashable() noexcept -> bool
 {
   return detection::is_llvm_hashable<T>;
@@ -22,7 +22,7 @@ cxx_is_hashable() noexcept -> bool
 template<typename T>
 requires(not detection::is_std_hashable<T>)
 [[nodiscard]] [[gnu::always_inline]] [[gnu::const]] [[nodiscard]] [[gnu::always_inline]] [[gnu::const]]
-constexpr inline auto
+constexpr static inline auto
 rust_should_impl_hash() noexcept -> bool
 {
   return cxx_is_hashable<T>();
