@@ -1,4 +1,5 @@
-#include "cxx-llvm-abi/cxx/include/llvm/ADT/Hashing.hxx"
+#pragma once
+
 #include "cxx-memory-abi/cxx/include/cxx-memory-abi.hxx"
 
 #include "llvm/ADT/Hashing.h"
