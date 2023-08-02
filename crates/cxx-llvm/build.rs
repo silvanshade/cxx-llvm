@@ -1,5 +1,4 @@
-type BoxError = Box<dyn std::error::Error + Send + Sync + 'static>;
-type BoxResult<T> = Result<T, BoxError>;
+use cxx_llvm_build_common::prelude::*;
 
 fn process_cxx() -> BoxResult<()> {
     let dirs = cxx_llvm_build::Dirs::new()?;

@@ -1,5 +1,4 @@
-type BoxError = Box<dyn std::error::Error + Send + Sync + 'static>;
-type BoxResult<T> = Result<T, BoxError>;
+use cxx_llvm_build_common::prelude::*;
 
 pub fn project_dir() -> BoxResult<std::path::PathBuf> {
     let cargo_manifest_dir = std::env::var("CARGO_MANIFEST_DIR")?;

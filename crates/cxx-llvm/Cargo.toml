@@ -9,6 +9,7 @@ repository = "https://github.com/silvanshade/cxx-llvm"
 [build-dependencies]
 cxx-llvm-abi = { version = "0.0", path = "../cxx-llvm-abi" }
 cxx-llvm-build = { version = "0.0", path = "../cxx-llvm-build" }
+cxx-llvm-build-common = { version = "0.0", path = "../cxx-llvm-build-common" }
 
 [dependencies]
 cxx = { version = "1.0", features = ["c++20"] }
