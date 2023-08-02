@@ -3,4 +3,6 @@
 members = [
   "crates/cxx-llvm",
   "crates/cxx-llvm-abi",
+  "crates/cxx-llvm-build",
+  "crates/cxx-llvm-build-common",
 ]

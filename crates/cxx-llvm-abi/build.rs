@@ -8,7 +8,7 @@ pub fn project_dir() -> BoxResult<std::path::PathBuf> {
 }
 
 fn process_cxx() -> BoxResult<()> {
-    let dirs = cxx_llvm_common::Dirs::new()?;
+    let dirs = cxx_llvm_build::Dirs::new()?;
     let rust_source_files: &[&str] = &[
         "src/abi/llvm/adt/hash_code.rs",
         "src/abi/llvm/adt/string_ref.rs",
@@ -17,7 +17,7 @@ fn process_cxx() -> BoxResult<()> {
     ];
     let files: &[&str] = &[];
     let output = "cxx-llvm-abi";
-    cxx_llvm_common::cxx_build(&dirs, rust_source_files, files, output)?;
+    cxx_llvm_build::cxx_build(&dirs, rust_source_files, files, output)?;
     Ok(())
 }
 

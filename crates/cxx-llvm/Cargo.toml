@@ -7,8 +7,8 @@ license = "Apache-2.0 WITH LLVM-exception"
 repository = "https://github.com/silvanshade/cxx-llvm"
 
 [build-dependencies]
-cxx-llvm-common = { version = "0.0", git = "https://github.com/silvanshade/cxx-llvm-common" }
 cxx-llvm-abi = { version = "0.0", path = "../cxx-llvm-abi" }
+cxx-llvm-build = { version = "0.0", path = "../cxx-llvm-build" }
 
 [dependencies]
 cxx = { version = "1.0", features = ["c++20"] }

@@ -10,10 +10,10 @@ links = "cxx-llvm-abi"
 
 [build-dependencies]
 cxx-build = { version = "1.0", features = ["parallel"] }
-cxx-llvm-common = { version = "0.0", git = "https://github.com/silvanshade/cxx-llvm-common" }
+cxx-llvm-build = { version = "0.0", path = "../cxx-llvm-build" }
 cxx-memory-abi = { version = "0.0", git = "https://github.com/silvanshade/cxx-memory" }
 
 [dependencies]
 cxx = { version = "1.0", features = ["c++20"] }
-cxx-llvm-common = { version = "0.0", git = "https://github.com/silvanshade/cxx-llvm-common" }
+cxx-llvm-build = { version = "0.0", path = "../cxx-llvm-build" }
 cxx-memory-abi = { version = "0.0", git = "https://github.com/silvanshade/cxx-memory" }
