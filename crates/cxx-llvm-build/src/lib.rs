@@ -100,18 +100,19 @@ impl Dirs {
         let cargo_manifest_dir = PathBuf::from(std::env::var("CARGO_MANIFEST_DIR")?);
         let swift_project = locate_swift_project_path(&cargo_manifest_dir)?;
         let swift_project = swift_project.as_deref();
-        let llvm_project = locate_llvm_project_path(&cargo_manifest_dir, swift_project)?;
-        let llvm_cmake_build = locate_llvm_cmake_build_path(swift_project, &llvm_project)?;
         if let Some(swift_project) = swift_project {
             println!(
                 "cargo:warning=[{cargo_pkg_name}]: Swift project path: \"{}\"",
                 swift_project.display()
             );
         }
+        let llvm_project = locate_llvm_project_path(&cargo_manifest_dir, swift_project)?;
         println!(
             "cargo:warning=[{cargo_pkg_name}]: LLVM project path: \"{}\"",
             llvm_project.display()
         );
+
+        let llvm_cmake_build = locate_llvm_cmake_build_path(swift_project, &llvm_project)?;
         println!(
             "cargo:warning=[{cargo_pkg_name}]: LLVM CMake build path: \"{}\"",
             llvm_cmake_build.display().to_string()
