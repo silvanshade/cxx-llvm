@@ -1,7 +1,8 @@
 use cxx_llvm_build_common::prelude::*;
 
 fn process_cxx() -> BoxResult<()> {
-    let dirs = cxx_llvm_build::Dirs::new()?;
+    let cargo_pkg_name = "cxx-llvm";
+    let dirs = cxx_llvm_build::Dirs::new(cargo_pkg_name)?;
     let rust_source_files: &[&str] = &[
         "src/abi/llvm/adt/hash_code.rs",
         "src/abi/llvm/adt/string_ref.rs",
@@ -13,7 +14,7 @@ fn process_cxx() -> BoxResult<()> {
         "src/gen/llvm/adt/twine.rs",
     ];
     let files: &[&str] = &[];
-    let output = "cxx-clang";
+    let output = "cxx-llvm";
     cxx_llvm_build::cxx_build(&dirs, rust_source_files, files, output)?;
     Ok(())
 }

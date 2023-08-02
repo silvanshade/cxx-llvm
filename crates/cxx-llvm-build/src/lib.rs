@@ -90,34 +90,34 @@ fn locate_llvm_cmake_build_path(swift_project: Option<&Path>, llvm_project: &Pat
 }
 
 pub struct Dirs {
+    pub swift_project: Option<PathBuf>,
     pub llvm_project: PathBuf,
     pub llvm_cmake_build: PathBuf,
 }
 
 impl Dirs {
-    pub fn new() -> BoxResult<Self> {
-        let cargo_pkg_name = std::env::var("CARGO_PKG_NAME")?;
+    pub fn new(cargo_pkg_name: &str) -> BoxResult<Self> {
         let cargo_manifest_dir = PathBuf::from(std::env::var("CARGO_MANIFEST_DIR")?);
         let swift_project = locate_swift_project_path(&cargo_manifest_dir)?;
-        let swift_project = swift_project.as_deref();
-        if let Some(swift_project) = swift_project {
+        if let Some(swift_project) = swift_project.as_deref() {
             println!(
                 "cargo:warning=[{cargo_pkg_name}]: Swift project path: \"{}\"",
                 swift_project.display()
             );
         }
-        let llvm_project = locate_llvm_project_path(&cargo_manifest_dir, swift_project)?;
+        let llvm_project = locate_llvm_project_path(&cargo_manifest_dir, swift_project.as_deref())?;
         println!(
             "cargo:warning=[{cargo_pkg_name}]: LLVM project path: \"{}\"",
             llvm_project.display()
         );
 
-        let llvm_cmake_build = locate_llvm_cmake_build_path(swift_project, &llvm_project)?;
+        let llvm_cmake_build = locate_llvm_cmake_build_path(swift_project.as_deref(), &llvm_project)?;
         println!(
             "cargo:warning=[{cargo_pkg_name}]: LLVM CMake build path: \"{}\"",
             llvm_cmake_build.display().to_string()
         );
         let dirs = Dirs {
+            swift_project,
             llvm_project,
             llvm_cmake_build,
         };
@@ -131,16 +131,11 @@ pub fn cxx_build(
     files: impl IntoIterator<Item = impl AsRef<Path>>,
     output: &str,
 ) -> BoxResult<()> {
-    let includes = &[
-        dirs.llvm_project.join("llvm/include"),
-        dirs.llvm_cmake_build.join("include"),
-    ];
     rustc_link_search(dirs);
     cxx_build::bridges(rust_source_files)
         .llvm_common_compiler()
         .llvm_common_defines()
         .llvm_common_flags()
-        .includes(includes)
         .files(files)
         .try_compile(output)?;
     rustc_link_libs();
