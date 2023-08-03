@@ -23,7 +23,7 @@ fn locate_swift_project_path(cargo_manifest_dir: &Path) -> BoxResult<Option<Path
 
 fn locate_llvm_project_path(cargo_manifest_dir: &Path, swift_project: Option<&Path>) -> BoxResult<PathBuf> {
     let err =
-        Err(r#"Failed to locate LLVM project path. Try setting the `LLVM_PROJECT_PATH` environment variable."#.into());
+        Err("Failed to locate LLVM project path. Try setting the `LLVM_PROJECT_PATH` environment variable.".into());
 
     let mut should_ignore = false;
 
@@ -52,8 +52,7 @@ fn locate_llvm_project_path(cargo_manifest_dir: &Path, swift_project: Option<&Pa
 
 fn locate_llvm_cmake_build_path(swift_project: Option<&Path>, llvm_project: &Path) -> BoxResult<PathBuf> {
     let err = Err(
-        r#"Failed to locate LLVM CMake build path. Try setting the `LLVM_CMAKE_BUILD_PATH` environment variable."#
-            .into(),
+        "Failed to locate LLVM CMake build path. Try setting the `LLVM_CMAKE_BUILD_PATH` environment variable.".into(),
     );
 
     let mut should_ignore = false;
@@ -114,7 +113,7 @@ impl Dirs {
         let llvm_cmake_build = locate_llvm_cmake_build_path(swift_project.as_deref(), &llvm_project)?;
         println!(
             "cargo:warning=[{cargo_pkg_name}]: LLVM CMake build path: \"{}\"",
-            llvm_cmake_build.display().to_string()
+            llvm_cmake_build.display()
         );
         let dirs = Dirs {
             swift_project,
@@ -126,12 +125,12 @@ impl Dirs {
 }
 
 pub fn cxx_build(
-    dirs: &Dirs,
+    llvm_dirs: &Dirs,
     rust_source_files: impl IntoIterator<Item = impl AsRef<Path>>,
     files: impl IntoIterator<Item = impl AsRef<Path>>,
     output: &str,
 ) -> BoxResult<()> {
-    rustc_link_search(dirs);
+    rustc_link_searches(llvm_dirs);
     cxx_build::bridges(rust_source_files)
         .llvm_common_compiler()
         .llvm_common_defines()
@@ -142,18 +141,14 @@ pub fn cxx_build(
     Ok(())
 }
 
-fn rustc_link_search(dirs: &Dirs) {
+pub fn rustc_link_searches(llvm_dirs: &Dirs) {
     println!(
         "cargo:rustc-link-search={}",
-        dirs.llvm_cmake_build.join("lib").display()
+        llvm_dirs.llvm_cmake_build.join("lib").display()
     );
 }
 
-fn rustc_link_libs() {
-    link_llvm_libs();
-}
-
-fn link_llvm_libs() {
+pub fn rustc_link_libs() {
     println!("cargo:rustc-link-lib=static=LLVMX86Disassembler");
     println!("cargo:rustc-link-lib=static=LLVMARMDisassembler");
     println!("cargo:rustc-link-lib=static=LLVMAArch64Disassembler");
@@ -229,4 +224,6 @@ fn link_llvm_libs() {
     println!("cargo:rustc-link-lib=static=LLVMCAS");
     println!("cargo:rustc-link-lib=static=LLVMSupport");
     println!("cargo:rustc-link-lib=static=LLVMDemangle");
+    println!("cargo:rustc-link-lib=ncurses");
+    println!("cargo:rustc-link-lib=z");
 }
