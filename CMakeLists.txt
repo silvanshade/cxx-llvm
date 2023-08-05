@@ -16,7 +16,7 @@ target_include_directories(cxx-llvm-abi PUBLIC
   ../cxx-llvm/crates/cxx-llvm-abi/..
   ../cxx-memory/crates/cxx-memory-abi/..
   target/cxxbridge
-  ../swift-project/build/Ninja-ReleaseAssert/llvm-linux-x86_64/include
+  ../swift-project/build/Ninja-MinSizeRelAssert/llvm-linux-x86_64/include
   ../swift-project/llvm-project/llvm/include
 )
 target_compile_definitions(cxx-llvm-abi PUBLIC _LIBCPP_ENABLE_THREAD_SAFETY_ANNOTATIONS)

@@ -1,5 +1,5 @@
 pub mod constants {
-    pub const CMAKE_BUILD_MODE: &str = "ReleaseAssert";
+    pub const CMAKE_BUILD_MODE: &str = "MinSizeRelAssert";
 
     #[cfg(all(target_os = "macos", target_arch = "x86_64"))]
     pub const CMAKE_BUILD_TARGET: &str = "macosx-x86_64";
