@@ -8,7 +8,7 @@ pub mod constants {
     #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
     pub const CMAKE_BUILD_TARGET: &str = "linux-x86_64";
     #[cfg(all(target_os = "linux", target_arch = "aarch64"))]
-    pub const CMAKE_BUILD_TARGET: &str = "linux-arm64";
+    pub const CMAKE_BUILD_TARGET: &str = "linux-aarch64";
 
     #[allow(non_snake_case)]
     pub fn NINJA_BUILD_DIR() -> String {
