@@ -241,8 +241,8 @@ mod ffi {
     }
 
     extern "C++" {
-        include!("cxx-llvm-abi/cxx/include/llvm/ADT/Triple.hxx");
-        include!("cxx-llvm-abi/cxx/include/llvm/ADT/Twine.hxx");
+        include!("cxx-llvm-auto/cxx/include/llvm/ADT/Triple.hxx");
+        include!("cxx-llvm-auto/cxx/include/llvm/ADT/Twine.hxx");
 
         #[namespace = "cxx_llvm::llvm::adt::triple"]
         type Triple = crate::ffi::llvm::adt::triple::Triple;

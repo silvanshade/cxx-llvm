@@ -1,7 +1,7 @@
 #[cxx::bridge]
 mod ffi {
     extern "C++" {
-        include!("cxx-llvm-abi/cxx/include/llvm/ADT/HashCode.hxx");
+        include!("cxx-llvm-auto/cxx/include/llvm/ADT/HashCode.hxx");
 
         // #[namespace = "cxx_llvm::llvm::adt::hash_code"]
         // type HashCode = crate::ffi::llvm::adt::hash_code::HashCode;

@@ -1,6 +1,6 @@
 use crate::ffi::llvm::adt::small_vector::SmallVectorElement;
 use core::pin::Pin;
-use cxx_memory_abi::ctypes::c_void;
+use cxx_auto::ctypes::c_void;
 
 #[repr(C)]
 pub struct SmallVectorImpl<T>
@@ -29,9 +29,9 @@ where
     T: SmallVectorImplElement,
 {
     #[inline]
-    pub fn new() -> impl cxx_memory::New<Output = T::DefaultType> {
+    pub fn new() -> impl moveref::New<Output = T::DefaultType> {
         unsafe {
-            cxx_memory::new::by_raw(move |this| {
+            moveref::new::by_raw(move |this| {
                 let this = this.get_unchecked_mut().as_mut_ptr();
                 T::cxx_default_new(this)
             })

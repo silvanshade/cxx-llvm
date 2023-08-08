@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cxx-llvm-abi/cxx/include/cxx-llvm-abi.hxx"
+#include "cxx-llvm-auto/cxx/include/cxx-llvm-auto.hxx"
 
 #include "llvm/ADT/Triple.h"
 
@@ -13,7 +13,7 @@ using TripleEnvironmentType = ::llvm::Triple::EnvironmentType;
 using TripleObjectFormatType = ::llvm::Triple::ObjectFormatType;
 
 namespace cxx_llvm::llvm::adt::triple {
-CXX_MEMORY_ABI_PRELUDE(Triple, ::llvm::Triple)
+CXX_AUTO_PRELUDE(Triple, ::llvm::Triple)
 } // namespace cxx_llvm::llvm::adt::triple
 
 namespace cxx_llvm::llvm::adt::triple {
@@ -26,7 +26,7 @@ placement_new_from_arch_vendor_os(
   ::llvm::Twine const& os
 ) noexcept -> void
 {
-  return cxx_memory::abi::cxx_placement_new(
+  return cxx_auto::cxx_placement_new(
     This,
     std::forward<::llvm::Twine const>(arch),
     std::forward<::llvm::Twine const>(vendor),
@@ -44,7 +44,7 @@ placement_new_from_arch_vendor_os_environment(
   ::llvm::Twine const& environment
 ) noexcept -> void
 {
-  return cxx_memory::abi::cxx_placement_new(
+  return cxx_auto::cxx_placement_new(
     This,
     std::forward<::llvm::Twine const>(arch),
     std::forward<::llvm::Twine const>(vendor),

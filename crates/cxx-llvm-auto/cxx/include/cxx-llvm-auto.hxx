@@ -1,11 +1,11 @@
 #pragma once
 
-#include "cxx-memory-abi/cxx/include/cxx-memory-abi.hxx"
+#include "cxx-auto/cxx/include/cxx-auto.hxx"
 
 #include "llvm/ADT/Hashing.h"
 #include "llvm/Support/raw_ostream.h"
 
-namespace cxx_memory::abi::detection {
+namespace cxx_auto::detection {
 template<typename T>
 concept is_llvm_hashable = requires(T const& val) { ::std::same_as<decltype(hash_value(val)), ::llvm::hash_code>; };
 
@@ -22,9 +22,9 @@ concept has_method_llvm_print = requires(T const& arg, llvm::raw_ostream& os) { 
     arg.dump(os)
   } -> ::std::same_as<void>;
 };
-} // namespace cxx_memory::abi::detection
+} // namespace cxx_auto::detection
 
-namespace cxx_memory::abi {
+namespace cxx_auto {
 template<typename T>
 requires(not detection::is_std_hashable<T>)
 [[nodiscard]] [[gnu::always_inline]] [[gnu::const]] [[nodiscard]] [[gnu::always_inline]] [[gnu::const]]
@@ -76,4 +76,4 @@ cxx_display(T const& This [[clang::lifetimebound]]) noexcept -> rust::String
   return rust::String::lossy(std::to_string(This));
 }
 
-} // namespace cxx_memory::abi
+} // namespace cxx_auto

@@ -2,18 +2,18 @@ use crate::{ffi::llvm::adt::twine::Twine, gen::llvm::adt::triple};
 use core::{mem::MaybeUninit, pin::Pin};
 
 pub use crate::{
-    abi::llvm::adt::triple::Triple,
+    auto::llvm::adt::triple::Triple,
     gen::llvm::adt::triple::{ArchType, EnvironmentType, OSType, ObjectFormatType, SubArchType, VendorType},
 };
 
 impl Triple {
     #[inline]
-    pub fn new() -> impl cxx_memory::New<Output = Triple> {
+    pub fn new() -> impl moveref::New<Output = Triple> {
         Self::default_new()
     }
 
     #[inline]
-    pub fn from<Data>(data: Data) -> impl cxx_memory::New<Output = Triple>
+    pub fn from<Data>(data: Data) -> impl moveref::New<Output = Triple>
     where
         Data: Into<crate::Initializer<Self, Data>>,
     {

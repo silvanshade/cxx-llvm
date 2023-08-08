@@ -1,11 +1,11 @@
 use crate::gen::llvm::adt::twine;
-use cxx_memory::cxx;
+use moveref::expr;
 
-pub use crate::abi::llvm::adt::twine::Twine;
+pub use crate::auto::llvm::adt::twine::Twine;
 
 impl<'a> Twine<'a> {
     #[inline]
-    pub fn new() -> impl cxx_memory::New<Output = Twine<'a>> {
+    pub fn new() -> impl moveref::New<Output = Twine<'a>> {
         Self::default_new()
     }
 }
@@ -13,7 +13,7 @@ impl<'a> Twine<'a> {
 impl Default for Twine<'_> {
     #[inline]
     fn default() -> Self {
-        *cxx!(Self::new())
+        *expr!(Self::new())
     }
 }
 
@@ -27,7 +27,7 @@ impl<'a> From<&'a str> for Twine<'a> {
 impl<'a> From<&'a std::path::Path> for Twine<'a> {
     #[inline]
     fn from(path: &'a std::path::Path) -> Self {
-        let slice = cxx_memory_abi::ctypes::c_char::from_path(path);
+        let slice = cxx_auto::ctypes::c_char::from_path(path);
         twine::new_from_rust_slice(slice)
     }
 }

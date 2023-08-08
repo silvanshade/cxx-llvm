@@ -1,12 +1,12 @@
 #pragma once
 
-#include "cxx-llvm-abi/cxx/include/cxx-llvm-abi.hxx"
+#include "cxx-llvm-auto/cxx/include/cxx-llvm-auto.hxx"
 #include "rust/cxx.h"
 
 #include "llvm/ADT/StringRef.h"
 
 namespace cxx_llvm::llvm::adt::string_ref {
-CXX_MEMORY_ABI_PRELUDE(StringRef, ::llvm::StringRef)
+CXX_AUTO_PRELUDE(StringRef, ::llvm::StringRef)
 } // namespace cxx_llvm::llvm::adt::string_ref
 
 namespace cxx_llvm::llvm::adt::string_ref {

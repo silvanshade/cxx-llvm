@@ -1,10 +1,10 @@
 #pragma once
 
-#include "cxx-llvm-abi/cxx/include/cxx-llvm-abi.hxx"
+#include "cxx-llvm-auto/cxx/include/cxx-llvm-auto.hxx"
 
 #include "llvm/ADT/SmallVector.h"
 
 namespace cxx_llvm::llvm::adt::small_vector {
-template<typename T>
-using F = ::llvm::SmallVector<T>;
+template<typename TyArg0>
+using TyCon = ::llvm::SmallVector<TyArg0>;
 } // namespace cxx_llvm::llvm::adt::small_vector

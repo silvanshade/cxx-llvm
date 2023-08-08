@@ -1,10 +1,10 @@
-use cxx_memory::cxx;
+use moveref::expr;
 
-pub use crate::abi::llvm::adt::hash_code::HashCode;
+pub use crate::auto::llvm::adt::hash_code::HashCode;
 
 impl HashCode {
     #[inline]
-    pub fn new() -> impl cxx_memory::New<Output = HashCode> {
+    pub fn new() -> impl moveref::New<Output = HashCode> {
         Self::default_new()
     }
 }
@@ -12,6 +12,6 @@ impl HashCode {
 impl Default for HashCode {
     #[inline]
     fn default() -> Self {
-        *cxx!(Self::new())
+        *expr!(Self::new())
     }
 }

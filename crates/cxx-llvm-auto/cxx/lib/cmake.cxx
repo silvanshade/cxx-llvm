@@ -1,0 +1,8 @@
+#include "cxx-llvm-auto/cxx/include/cxx-llvm-auto.hxx"
+#include "cxx-llvm-auto/cxx/include/llvm/ADT/HashCode.hxx"
+#include "cxx-llvm-auto/cxx/include/llvm/ADT/SmallVector.hxx"
+#include "cxx-llvm-auto/cxx/include/llvm/ADT/SmallVectorBoxed.hxx"
+#include "cxx-llvm-auto/cxx/include/llvm/ADT/SmallVectorImpl.hxx"
+#include "cxx-llvm-auto/cxx/include/llvm/ADT/StringRef.hxx"
+#include "cxx-llvm-auto/cxx/include/llvm/ADT/Triple.hxx"
+#include "cxx-llvm-auto/cxx/include/llvm/ADT/Twine.hxx"
