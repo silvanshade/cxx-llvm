@@ -5,6 +5,7 @@ version = "0.0.0"
 authors = ["silvanshade <silvanshade@users.noreply.github.com>"]
 license = "Apache-2.0 WITH LLVM-exception"
 repository = "https://github.com/silvanshade/cxx-llvm"
+description = "cxx-style FFI bindings to the LLVM C++ API"
 
 [build-dependencies]
 cxx-llvm-auto = { version = "0.0", path = "../cxx-llvm-auto" }
