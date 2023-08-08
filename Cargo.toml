@@ -10,3 +10,4 @@ members = [
 
 # [patch.crates-io]
 # cxx-auto = { path = "../../../cxx-auto" }
+# moveref = { path = "../../../moveref" }
