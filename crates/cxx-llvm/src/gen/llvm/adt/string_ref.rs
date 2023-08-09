@@ -17,6 +17,7 @@ mod ffi {
 
         fn new_from_rust_slice<'a>(str: &'a [_c_char]) -> StringRef<'a>;
 
+        #[allow(clippy::needless_lifetimes)]
         fn as_slice<'a>(This: StringRef<'a>) -> &'a [_c_char];
     }
 }

@@ -28,6 +28,7 @@ impl<T> SmallVectorImpl<T>
 where
     T: SmallVectorImplElement,
 {
+    #[allow(clippy::new_ret_no_self)]
     #[inline]
     pub fn new() -> impl moveref::New<Output = T::DefaultType> {
         unsafe {
@@ -45,7 +46,8 @@ where
 
     #[inline]
     pub fn iter_pin(self: Pin<&mut Self>) -> IterPin<'_, T> {
-        let inner = unsafe { T::as_mut_slice(self) }.iter_mut();
+        let slice = unsafe { Pin::into_inner_unchecked(T::as_pin_slice(self)) };
+        let inner = slice.iter_mut();
         IterPin { inner }
     }
 }
@@ -55,7 +57,7 @@ pub trait SmallVectorImplElement: SmallVectorElement {
 
     #[inline]
     fn into_repr_mut_ptr(this: *mut SmallVectorImpl<Self>) -> *mut <Self as SmallVectorImplElement>::ReprType {
-        unsafe { core::mem::transmute(this) }
+        this.cast()
     }
 
     #[inline]
@@ -78,11 +80,16 @@ pub trait SmallVectorImplElement: SmallVectorElement {
         unsafe { core::mem::transmute(repr) }
     }
 
+    /// # Safety
+    ///
+    /// - `this` must be previously allocated memory
+    /// - `this` must be in a valid, initialized state for its type
+    /// - after invocation, `this` must be destroyed and the pointer must not be dereferenced again
     unsafe fn cxx_destruct(this: *mut SmallVectorImpl<Self>);
 
     fn as_slice(this: &SmallVectorImpl<Self>) -> &[Self];
 
-    unsafe fn as_mut_slice(this: Pin<&mut SmallVectorImpl<Self>>) -> &mut [Self];
+    fn as_pin_slice(this: Pin<&mut SmallVectorImpl<Self>>) -> Pin<&mut [Self]>;
 }
 
 #[repr(transparent)]
@@ -151,7 +158,7 @@ where
 
     #[inline]
     fn into_iter(self) -> Self::IntoIter {
-        T::as_slice(self).into_iter()
+        T::as_slice(self).iter()
     }
 }
 

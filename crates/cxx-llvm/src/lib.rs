@@ -74,7 +74,7 @@ impl<This, Data> Initializer<This, Data> {
     }
 }
 
-unsafe impl<This, Data> moveref::New for Initializer<This, Data> {
+impl<This, Data> moveref::New for Initializer<This, Data> {
     type Output = This;
 
     #[inline]

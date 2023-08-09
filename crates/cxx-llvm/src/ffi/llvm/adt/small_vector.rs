@@ -68,7 +68,7 @@ pub trait SmallVectorElement: Sized {
 
     #[inline]
     fn into_repr_mut_ptr(this: *mut Self::DefaultType) -> *mut Self::ReprType {
-        unsafe { core::mem::transmute(this) }
+        this.cast()
     }
 
     #[inline]
@@ -91,8 +91,17 @@ pub trait SmallVectorElement: Sized {
         unsafe { core::mem::transmute(repr) }
     }
 
+    /// # Safety
+    ///
+    /// - `this` must be freshly-allocated memory
+    /// - after invocation, `this` must be in a valid, initialized state for its type
     unsafe fn cxx_default_new(this: *mut Self::DefaultType);
 
+    /// # Safety
+    ///
+    /// - `this` must be previously allocated memory
+    /// - `this` must be in a valid, initialized state for its type
+    /// - after invocation, `this` must be destroyed and the pointer must not be dereferenced again
     unsafe fn cxx_destruct(this: *mut Self::DefaultType);
 
     fn as_ref_small_vector_impl(this: &Self::DefaultType) -> &SmallVectorImpl<Self>

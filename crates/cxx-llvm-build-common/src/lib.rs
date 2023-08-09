@@ -91,9 +91,9 @@ pub mod util {
                 )
                 .into());
             }
-            return Ok(Some(path));
+            Ok(Some(path))
         } else {
-            return Ok(None);
+            Ok(None)
         }
     }
 }
