@@ -1,3 +1,3 @@
 # cxx-llvm
 
-cxx-style FFI bindings to the LLVM C++ API
+[cxx](https://cxx.rs) FFI bindings to the [LLVM C++ API](https://llvm.org/doxygen)
