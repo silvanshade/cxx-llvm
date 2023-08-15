@@ -28,11 +28,15 @@ impl<'a> From<&'a std::path::Path> for StringRef<'a> {
 }
 
 impl<'a> StringRef<'a> {
+    #[must_use]
     #[inline]
     pub fn new() -> impl moveref::New<Output = StringRef<'a>> {
         Self::default_new()
     }
 
+    /// # Errors
+    ///
+    /// Will return `Err` if the string is not valid UTF-8.
     #[inline]
     pub fn as_str(self) -> Result<&'a str, Utf8Error> {
         let slice = string_ref::as_slice(self);

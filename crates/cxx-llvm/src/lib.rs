@@ -1,3 +1,6 @@
+#![deny(clippy::all)]
+#![deny(clippy::pedantic)]
+
 mod auto;
 mod ffi {
     pub(crate) mod llvm {
@@ -27,9 +30,11 @@ pub mod llvm {
             pub use crate::ffi::llvm::adt::hash_code::HashCode;
         }
         pub mod small_vector {
+            #[allow(clippy::module_name_repetitions)]
             pub use crate::ffi::llvm::adt::small_vector::{small_vector_element, SmallVector, SmallVectorElement};
         }
         pub mod small_vector_impl {
+            #[allow(clippy::module_name_repetitions)]
             pub use crate::ffi::llvm::adt::small_vector_impl::{IterPin, SmallVectorImpl, SmallVectorImplElement};
         }
         pub mod string_ref {
@@ -37,13 +42,7 @@ pub mod llvm {
         }
         pub mod triple {
             pub use crate::ffi::llvm::adt::triple::{
-                ArchType,
-                EnvironmentType,
-                OSType,
-                ObjectFormatType,
-                SubArchType,
-                Triple,
-                VendorType,
+                ArchType, EnvironmentType, OSType, ObjectFormatType, SubArchType, Triple, VendorType,
             };
         }
         pub mod twine {
@@ -51,12 +50,8 @@ pub mod llvm {
         }
     }
     pub use crate::ffi::llvm::adt::{
-        hash_code::HashCode,
-        small_vector::SmallVector,
-        small_vector_impl::SmallVectorImpl,
-        string_ref::StringRef,
-        triple::Triple,
-        twine::Twine,
+        hash_code::HashCode, small_vector::SmallVector, small_vector_impl::SmallVectorImpl, string_ref::StringRef,
+        triple::Triple, twine::Twine,
     };
 }
 
@@ -79,7 +74,7 @@ impl<This, Data> moveref::New for Initializer<This, Data> {
 
     #[inline]
     unsafe fn new(self, this: Pin<&mut MaybeUninit<Self::Output>>) {
-        (self.call)(this, self.data)
+        (self.call)(this, self.data);
     }
 }
 

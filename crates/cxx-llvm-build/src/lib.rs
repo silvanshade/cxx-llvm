@@ -1,3 +1,6 @@
+#![deny(clippy::all)]
+#![deny(clippy::pedantic)]
+
 use cxx_llvm_build_common::prelude::*;
 use normpath::PathExt;
 use std::path::{Path, PathBuf};
@@ -95,6 +98,11 @@ pub struct Dirs {
 }
 
 impl Dirs {
+    /// # Errors
+    ///
+    /// Will return `Err` under the following circumstances:
+    /// - looking up the environment variable `CARGO_MANIFEST_DIR` fails
+    /// - the swift project path cannot be located with respect to `CARGO_MANIFEST_DIR`
     pub fn new(cargo_pkg_name: &str) -> BoxResult<Self> {
         let cargo_manifest_dir = PathBuf::from(std::env::var("CARGO_MANIFEST_DIR")?);
         let swift_project = locate_swift_project_path(&cargo_manifest_dir)?;
@@ -124,6 +132,9 @@ impl Dirs {
     }
 }
 
+/// # Errors
+///
+/// Will return `Err` if the call to `cxx_build::bridges` fails.
 pub fn cxx_build(
     llvm_dirs: &Dirs,
     rust_source_files: impl IntoIterator<Item = impl AsRef<Path>>,

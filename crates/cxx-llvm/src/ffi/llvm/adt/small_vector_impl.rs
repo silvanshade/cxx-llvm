@@ -29,12 +29,13 @@ where
     T: SmallVectorImplElement,
 {
     #[allow(clippy::new_ret_no_self)]
+    #[must_use]
     #[inline]
     pub fn new() -> impl moveref::New<Output = T::DefaultType> {
         unsafe {
             moveref::new::by_raw(move |this| {
                 let this = this.get_unchecked_mut().as_mut_ptr();
-                T::cxx_default_new(this)
+                T::cxx_default_new(this);
             })
         }
     }
@@ -44,6 +45,7 @@ where
         T::as_slice(self).iter()
     }
 
+    #[must_use]
     #[inline]
     pub fn iter_pin(self: Pin<&mut Self>) -> IterPin<'_, T> {
         let slice = unsafe { Pin::into_inner_unchecked(T::as_pin_slice(self)) };
@@ -52,6 +54,7 @@ where
     }
 }
 
+#[allow(clippy::module_name_repetitions)]
 pub trait SmallVectorImplElement: SmallVectorElement {
     type ReprType;
 
@@ -62,19 +65,21 @@ pub trait SmallVectorImplElement: SmallVectorElement {
 
     #[inline]
     fn into_repr_ref(this: &SmallVectorImpl<Self>) -> &<Self as SmallVectorImplElement>::ReprType {
-        unsafe { core::mem::transmute(this) }
+        unsafe { &*(this as *const SmallVectorImpl<Self>).cast::<<Self as SmallVectorImplElement>::ReprType>() }
     }
 
     #[inline]
     fn from_repr_ref(repr: &<Self as SmallVectorImplElement>::ReprType) -> &SmallVectorImpl<Self> {
-        unsafe { core::mem::transmute(repr) }
+        unsafe { &*(repr as *const <Self as SmallVectorImplElement>::ReprType).cast::<SmallVectorImpl<Self>>() }
     }
 
+    #[must_use]
     #[inline]
     fn into_repr_pin(this: Pin<&mut SmallVectorImpl<Self>>) -> Pin<&mut <Self as SmallVectorImplElement>::ReprType> {
         unsafe { core::mem::transmute(this) }
     }
 
+    #[must_use]
     #[inline]
     fn from_repr_pin(repr: Pin<&mut <Self as SmallVectorImplElement>::ReprType>) -> Pin<&mut SmallVectorImpl<Self>> {
         unsafe { core::mem::transmute(repr) }
@@ -124,8 +129,7 @@ impl<T> ExactSizeIterator for IterPin<'_, T> {
     }
 }
 
-impl<T> core::iter::FusedIterator for IterPin<'_, T> {
-}
+impl<T> core::iter::FusedIterator for IterPin<'_, T> {}
 
 impl<'a, T> Iterator for IterPin<'a, T> {
     type Item = Pin<<core::slice::IterMut<'a, T> as Iterator>::Item>;
@@ -141,13 +145,9 @@ impl<'a, T> Iterator for IterPin<'a, T> {
     }
 }
 
-unsafe impl<T> Send for IterPin<'_, T> where T: Send
-{
-}
+unsafe impl<T> Send for IterPin<'_, T> where T: Send {}
 
-unsafe impl<T> Sync for IterPin<'_, T> where T: Sync
-{
-}
+unsafe impl<T> Sync for IterPin<'_, T> where T: Sync {}
 
 impl<'a, T> IntoIterator for &'a SmallVectorImpl<T>
 where

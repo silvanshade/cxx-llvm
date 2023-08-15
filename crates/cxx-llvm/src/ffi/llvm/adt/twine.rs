@@ -4,6 +4,7 @@ use moveref::expr;
 pub use crate::auto::llvm::adt::twine::Twine;
 
 impl<'a> Twine<'a> {
+    #[must_use]
     #[inline]
     pub fn new() -> impl moveref::New<Output = Twine<'a>> {
         Self::default_new()

@@ -42,7 +42,8 @@ where
     #[inline]
     fn as_ref(&self) -> &SmallVectorImpl<T> {
         debug_assert_eq!(CAPACITY, T::DEFAULT_CAPACITY);
-        let this = unsafe { core::mem::transmute(self) };
+        let this =
+            unsafe { &*(self as *const SmallVector<T, CAPACITY>).cast::<<T as SmallVectorElement>::DefaultType>() };
         T::as_ref_small_vector_impl(this)
     }
 }
@@ -51,6 +52,7 @@ impl<T, const CAPACITY: usize> SmallVector<T, CAPACITY>
 where
     T: SmallVectorImplElement,
 {
+    #[must_use]
     #[inline]
     pub fn as_pin(self: Pin<&mut Self>) -> Pin<&mut SmallVectorImpl<T>> {
         debug_assert_eq!(CAPACITY, T::DEFAULT_CAPACITY);
@@ -59,6 +61,7 @@ where
     }
 }
 
+#[allow(clippy::module_name_repetitions)]
 pub trait SmallVectorElement: Sized {
     type DefaultType;
     type ReprType;
@@ -73,19 +76,27 @@ pub trait SmallVectorElement: Sized {
 
     #[inline]
     fn into_repr_ref(this: &Self::DefaultType) -> &Self::ReprType {
-        unsafe { core::mem::transmute(this) }
+        unsafe {
+            &*(this as *const <Self as SmallVectorElement>::DefaultType)
+                .cast::<<Self as SmallVectorElement>::ReprType>()
+        }
     }
 
     #[inline]
     fn from_repr_ref(repr: &Self::ReprType) -> &Self::DefaultType {
-        unsafe { core::mem::transmute(repr) }
+        unsafe {
+            &*(repr as *const <Self as SmallVectorElement>::ReprType)
+                .cast::<<Self as SmallVectorElement>::DefaultType>()
+        }
     }
 
+    #[must_use]
     #[inline]
     fn into_repr_pin(this: Pin<&mut Self::DefaultType>) -> Pin<&mut Self::ReprType> {
         unsafe { core::mem::transmute(this) }
     }
 
+    #[must_use]
     #[inline]
     fn from_repr_pin(repr: Pin<&mut Self::ReprType>) -> Pin<&mut Self::DefaultType> {
         unsafe { core::mem::transmute(repr) }
@@ -113,8 +124,10 @@ pub trait SmallVectorElement: Sized {
         Self: SmallVectorImplElement;
 }
 
+#[allow(clippy::module_name_repetitions)]
 pub mod small_vector_element {
     // NOTE: used in const asserts
+    #[must_use]
     #[inline]
     pub const fn size_type_size<T>() -> usize {
         if core::mem::size_of::<T>() < 4 && core::mem::size_of::<*const core::ffi::c_void>() >= 8 {
@@ -124,6 +137,7 @@ pub mod small_vector_element {
         }
     }
 
+    #[must_use]
     #[inline]
     pub const fn header<T>() -> usize
     where
@@ -134,6 +148,7 @@ pub mod small_vector_element {
         void_type_size + 2 * size_type_size
     }
 
+    #[must_use]
     #[inline]
     pub const fn capacity<T>() -> usize
     where

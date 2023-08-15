@@ -7,6 +7,7 @@ pub use crate::{
 };
 
 impl Triple {
+    #[must_use]
     #[inline]
     pub fn new() -> impl moveref::New<Output = Triple> {
         Self::default_new()

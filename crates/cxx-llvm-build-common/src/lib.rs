@@ -1,3 +1,6 @@
+#![deny(clippy::all)]
+#![deny(clippy::pedantic)]
+
 pub mod constants {
     pub const CMAKE_BUILD_MODE: &str = "MinSizeRelAssert";
 
@@ -10,6 +13,7 @@ pub mod constants {
     #[cfg(all(target_os = "linux", target_arch = "aarch64"))]
     pub const CMAKE_BUILD_TARGET: &str = "linux-aarch64";
 
+    #[must_use]
     #[allow(non_snake_case)]
     pub fn NINJA_BUILD_DIR() -> String {
         format!("Ninja-{CMAKE_BUILD_MODE}")
@@ -61,15 +65,19 @@ pub mod traits {
 
     pub(crate) mod sealed {
         pub trait BuildExt {}
-        impl BuildExt for cc::Build {
-        }
+        impl BuildExt for cc::Build {}
     }
 }
 
 pub mod util {
-    use crate::errors::*;
+    use crate::errors::BoxResult;
     use std::path::PathBuf;
 
+    /// # Errors
+    ///
+    /// Will return `Err` under the following circumstances:
+    /// - The path specified by the environeent variable `var` is not absolute
+    /// - The path specified by the environeent variable `var` does not exist
     pub fn get_path_from_env(var: &str, should_ignore: &mut bool) -> BoxResult<Option<PathBuf>> {
         if let Ok(path) = std::env::var(var) {
             if path.is_empty() {
