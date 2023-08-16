@@ -8,6 +8,6 @@ members = [
   "crates/cxx-llvm-build-common",
 ]
 
-# [patch.crates-io]
+[patch.crates-io]
 # cxx-auto = { path = "../cxx-auto" }
 # moveref = { path = "../moveref" }
