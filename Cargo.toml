@@ -6,6 +6,7 @@ members = [
   "crates/cxx-llvm-auto",
   "crates/cxx-llvm-build",
   "crates/cxx-llvm-build-common",
+  "xtask",
 ]
 
 [patch.crates-io]
